@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  rabbitmq_producer:
+    container_name: "rabbitmq_producer"
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./src:/src
+    env_file:
+      - .env
+    command: ["python3", "/src/rabbitmq_producer.py", "-H", "${HOST}", "-P", "${PORT}", "-U", "${USERNAME}", "-p", "${PASSWORD}", "-Q", "${QUEUE}", "-M", "${MESSAGE}"]
+    networks: 
+      - internal
+
+networks:
+  internal:
+    driver: bridge
